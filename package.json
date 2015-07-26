@@ -1,0 +1,23 @@
+{
+  "name": "commandjs",
+  "version": "0.0.1",
+  "description": "CLI like Command parser",
+  "main": "command.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/furti/commandjs.git"
+  },
+  "keywords": [
+    "command",
+    "commandparser"
+  ],
+  "author": "Daniel Furtlehner",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/furti/commandjs/issues"
+  },
+  "homepage": "https://github.com/furti/commandjs#readme"
+}
