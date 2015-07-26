@@ -1,0 +1,16 @@
+{
+    "filesGlob": [
+        "./source/**/*.ts",
+        "./definitions/**/*.ts"
+    ],
+    "compilerOptions": {
+        "outDir": ".",
+        "noImplicitAny": true,
+        "target": "es5",
+        "module": "commonjs",
+        "removeComments": true
+    },
+    "files": [
+        "./definitions/command-definitions.d.ts"
+    ]
+}
