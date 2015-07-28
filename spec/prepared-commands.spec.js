@@ -2,7 +2,7 @@ function commandExecutor(commands) {
   return new require('../command.js').executor(commands);
 }
 
-describe('Check CommandExecutor', function() {
+describe('Check CommandExecutors prepared commands', function() {
   it('Non Array commands should throw an error', function() {
     expect(function() {
       commandExecutor('test');
@@ -11,7 +11,7 @@ describe('Check CommandExecutor', function() {
 
   it('Null commands should not throw an error.', function() {
     var executor = commandExecutor(null);
-    expect(executor.commands).toBe(null);
+    expect(executor.commands).toBeUndefined();
   });
 
   it('Undefined commands should not throw an error.', function() {
@@ -22,15 +22,19 @@ describe('Check CommandExecutor', function() {
   it('List of Commands should be added', function() {
     var executor = commandExecutor([{
       name: 'git',
-      subcommands: [{
+      subCommands: [{
         name: 'init'
       }]
     }]);
 
     expect(executor.commands).toBeDefined();
-    expect(executor.commands.length).toBe(1);
-    expect(executor.commands[0].name).toBe('git');
+    expect(executor.commands.git).toBeDefined();
+    expect(executor.commands.git.command).toBeDefined();
+    expect(executor.commands.git.command.name).toBe('git');
 
-    //TODO: check subcommands
+    expect(executor.commands.git.subCommands).toBeDefined();
+    expect(executor.commands.git.subCommands.init).toBeDefined();
+    expect(executor.commands.git.subCommands.init.command).toBeDefined();
+    expect(executor.commands.git.subCommands.init.command.name).toBe('init');
   });
 });
