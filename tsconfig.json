@@ -17,8 +17,8 @@
         "convertTabsToSpaces": true
     },
     "files": [
-        "./source/lib/CommandExecutor.ts",
-        "./source/lib/Export.ts",
+        "./source/CommandExecutor.ts",
+        "./source/Export.ts",
         "./definitions/command-definitions.d.ts"
     ]
 }
