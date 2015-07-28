@@ -13,3 +13,7 @@ gulp.task('combine', function() {
     }))
     .pipe(gulp.dest('.'));
 });
+
+gulp.task('watch', function() {
+  gulp.watch('build/**/*.js', ['combine']);
+});
