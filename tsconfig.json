@@ -1,7 +1,7 @@
 {
     "filesGlob": [
         "./source/**/*.ts",
-        "./definitions/**/*.ts"
+        "./typings/**/*.ts"
     ],
     "compilerOptions": {
         "outDir": "build",
@@ -17,8 +17,12 @@
         "convertTabsToSpaces": true
     },
     "files": [
-        "./source/CommandExecutor.ts",
-        "./source/Export.ts",
-        "./definitions/command-definitions.d.ts"
+        "./source/dist/CommandExecutor.ts",
+        "./source/dist/Export.ts",
+        "./source/spec/prepare-commands.spec.ts",
+        "./typings/commandjs/command-definitions.d.ts",
+        "./typings/jasmine/jasmine.d.ts",
+        "./typings/node/node.d.ts",
+        "./typings/tsd.d.ts"
     ]
 }
