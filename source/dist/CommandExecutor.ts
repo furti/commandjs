@@ -1,6 +1,15 @@
 /// <reference path="../../typings/commandjs/command-definitions.d.ts"/>
-module CommandJs {
+module CommandJS {
   "use strict"
+
+  export enum ExecutorResponseState {
+    SUCCESS,
+    ERROR
+  }
+
+  export enum ExecutorErrorType {
+    COMMAND_NOT_FOUND
+  }
 
   interface CommandWrapper {
     command: Command;
@@ -27,11 +36,13 @@ module CommandJs {
       return this.commands;
     }
 
-    public getCommand(commandString: string): Command {
-      return null;
+    public getCommand(commandString: string): CommandJS.ExecutorResponse {
+      return {
+        state: CommandJS.ExecutorResponseState.SUCCESS
+      };
     }
 
-    private prepareCommands(commands: Array<Command>): { [k: string]: CommandWrapper } {
+    private prepareCommands(commands: Array<CommandJS.Command>): { [k: string]: CommandWrapper } {
       if (!commands) {
         return;
       }

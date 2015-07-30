@@ -22,9 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 /// <reference path="../../typings/commandjs/command-definitions.d.ts"/>
-var CommandJs;
-(function (CommandJs) {
+var CommandJS;
+(function (CommandJS) {
     "use strict";
+    (function (ExecutorResponseState) {
+        ExecutorResponseState[ExecutorResponseState["SUCCESS"] = 0] = "SUCCESS";
+        ExecutorResponseState[ExecutorResponseState["ERROR"] = 1] = "ERROR";
+    })(CommandJS.ExecutorResponseState || (CommandJS.ExecutorResponseState = {}));
+    var ExecutorResponseState = CommandJS.ExecutorResponseState;
+    (function (ExecutorErrorType) {
+        ExecutorErrorType[ExecutorErrorType["COMMAND_NOT_FOUND"] = 0] = "COMMAND_NOT_FOUND";
+    })(CommandJS.ExecutorErrorType || (CommandJS.ExecutorErrorType = {}));
+    var ExecutorErrorType = CommandJS.ExecutorErrorType;
     var CommandExecutorImpl = (function () {
         function CommandExecutorImpl(commands) {
             if (commands && !(commands instanceof Array)) {
@@ -36,7 +45,9 @@ var CommandJs;
             return this.commands;
         };
         CommandExecutorImpl.prototype.getCommand = function (commandString) {
-            return null;
+            return {
+                state: CommandJS.ExecutorResponseState.SUCCESS
+            };
         };
         CommandExecutorImpl.prototype.prepareCommands = function (commands) {
             if (!commands) {
@@ -56,17 +67,19 @@ var CommandJs;
         };
         return CommandExecutorImpl;
     })();
-    CommandJs.CommandExecutorImpl = CommandExecutorImpl;
-})(CommandJs || (CommandJs = {}));
+    CommandJS.CommandExecutorImpl = CommandExecutorImpl;
+})(CommandJS || (CommandJS = {}));
 
-var CommandJs;
-(function (CommandJs) {
+var CommandJS;
+(function (CommandJS) {
     "use strict";
     if (typeof exports === "object" && typeof module === "object") {
         module.exports = {
+            ExecutorResponseState: CommandJS.ExecutorResponseState,
+            ExecutorErrorType: CommandJS.ExecutorErrorType,
             executor: function (commands) {
-                return new CommandJs.CommandExecutorImpl(commands);
+                return new CommandJS.CommandExecutorImpl(commands);
             }
         };
     }
-})(CommandJs || (CommandJs = {}));
+})(CommandJS || (CommandJS = {}));
