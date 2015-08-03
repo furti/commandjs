@@ -2,7 +2,7 @@
   "name": "commandjs",
   "version": "0.0.1",
   "description": "CLI like Command parser",
-  "main": "command.js",
+  "main": "dist/index",
   "scripts": {
     "test": "jasmine"
   },
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/furti/commandjs#readme",
   "devDependencies": {
+    "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.0",
     "gulp-concat-util": "^0.5.2",
     "gulp-header": "^1.2.2",

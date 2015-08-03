@@ -1,6 +1,6 @@
 module CommandExecutorSpec {
   function commandExecutor(commands: any): CommandJS.CommandExecutorImpl {
-    return require('../../command.js').executor(commands);
+    return require('../dist/index').executor(commands);
   }
 
   describe('Check CommandExecutors prepared commands', function() {

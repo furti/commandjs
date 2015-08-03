@@ -4,7 +4,7 @@
         "./typings/**/*.ts"
     ],
     "compilerOptions": {
-        "outDir": "build",
+        "outDir": ".",
         "noImplicitAny": true,
         "target": "es5",
         "module": "commonjs",
@@ -17,8 +17,9 @@
         "convertTabsToSpaces": true
     },
     "files": [
-        "./source/dist/CommandExecutor.ts",
-        "./source/dist/Export.ts",
+        "./source/dist/command-executor.ts",
+        "./source/dist/index.ts",
+        "./source/dist/states.ts",
         "./source/spec/get-command.spec.ts",
         "./source/spec/prepare-commands.spec.ts",
         "./typings/commandjs/command-definitions.d.ts",

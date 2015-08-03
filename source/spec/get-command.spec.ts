@@ -1,19 +1,19 @@
 module CommandExecutorSpec {
-  var commandExecutorBuilder = require('../../command.js');
-  var commandExecutor = commandExecutorBuilder.executor;
-  var ExecutorResponseState = commandExecutorBuilder.ExecutorResponseState;
-
   describe('Test getCommand function', function() {
+    var commandExecutorBuilder = require('../dist/index');
+    var commandExecutor = commandExecutorBuilder.executor;
+    var states: CommandJS.ExecutorResponseState = commandExecutorBuilder.ExecutorResponseState;
+
     function successResponse(response: CommandJS.ExecutorResponse) {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
-      expect(response.state).toBe(ExecutorResponseState.SUCCESS);
+      expect(response.state).toBe(states['SUCCESS']);
     }
 
     function errorResponse(response: CommandJS.ExecutorResponse) {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
-      expect(response.state).toBe(ExecutorResponseState.ERROR);
+      expect(response.state).toBe(states['ERROR']);
     }
 
     function checkCommand(command: CommandJS.Command, expectedName: string) {
