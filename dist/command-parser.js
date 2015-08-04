@@ -379,7 +379,7 @@ module.exports = (function() {
       function toCommand(c) {
         return {
           type: "COMMAND_PARAM",
-          value: c
+          values: c
         };
       }
 
