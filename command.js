@@ -39,6 +39,7 @@ var CommandJS;
             return this.commands;
         };
         CommandExecutorImpl.prototype.getCommand = function (commandString) {
+            var commandParts = this.getCommandParts(commandParser.parse(commandString));
             return {
                 state: states.ExecutorResponseState.SUCCESS
             };
@@ -447,7 +448,7 @@ module.exports = (function() {
       function toCommand(c) {
         return {
           type: "COMMAND_PARAM",
-          value: c
+          values: c
         };
       }
 
