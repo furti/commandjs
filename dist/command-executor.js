@@ -3,6 +3,7 @@ var CommandJS;
 (function (CommandJS) {
     "use strict";
     var states = require('./states');
+    var commandParser = require('./command-parser');
     var CommandExecutorImpl = (function () {
         function CommandExecutorImpl(commands) {
             if (commands && !(commands instanceof Array)) {

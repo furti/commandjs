@@ -1,13 +1,19 @@
 var gulp = require('gulp');
-var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var plumber = require('gulp-plumber');
 var header = require('gulp-header');
 var fs = require('fs');
 var browserify = require('gulp-browserify');
+var peg = require('gulp-peg');
 
-gulp.task('combine', function() {
+gulp.task('peg', function() {
+  gulp.src('*.pegjs')
+    .pipe(peg())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('combine', ['peg'], function() {
   gulp.src('dist/index.js')
     .pipe(plumber())
     .pipe(browserify({
@@ -23,10 +29,10 @@ gulp.task('combine', function() {
     .pipe(rename({
       extname: '.min.js'
     }))
-    .pipe(gulp.dest('.'))
-  ;
+    .pipe(gulp.dest('.'));
 });
 
 gulp.task('watch', function() {
   gulp.watch('dist/**/*.js', ['combine']);
+  gulp.watch('*.pegjs', ['combine']);
 });

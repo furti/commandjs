@@ -2,6 +2,7 @@
 module CommandJS {
   "use strict"
   var states = require('./states');
+  var commandParser = require('./command-parser');
 
   interface CommandWrapper {
     command: Command;
