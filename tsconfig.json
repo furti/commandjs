@@ -26,6 +26,7 @@
         "./source/spec/get-command.spec.ts",
         "./source/spec/prepare-commands.spec.ts",
         "./typings/commandjs/command-definitions.d.ts",
+        "./typings/commandjs/peg.d.ts",
         "./typings/jasmine/jasmine.d.ts",
         "./typings/node/node.d.ts",
         "./typings/tsd.d.ts"
