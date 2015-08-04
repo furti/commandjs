@@ -12,18 +12,19 @@ gulp.task('combine', function() {
     .pipe(plumber())
     .pipe(browserify({
       debug: false,
-      e: 'test'
+      standalone: 'CommandJS'
     }))
-    //.pipe(header('/**@license\r\n' + fs.readFileSync('LICENSE', 'utf8') + '*/\r\n'))
+    .pipe(header('/**@license\r\n' + fs.readFileSync('LICENSE', 'utf8') + '*/\r\n'))
     .pipe(rename("command.js"))
     .pipe(gulp.dest('.'))
-    /*.pipe(uglify({
+    .pipe(uglify({
       preserveComments: 'some'
     }))
     .pipe(rename({
       extname: '.min.js'
     }))
-    .pipe(gulp.dest('.'))*/;
+    .pipe(gulp.dest('.'))
+  ;
 });
 
 gulp.task('watch', function() {
