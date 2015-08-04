@@ -13,11 +13,13 @@ module CommandExecutorSpec
       expect(response.state).toBe(states['SUCCESS']);
     }
 
-    function errorResponse(response: CommandJS.ExecutorResponse)
+    function errorResponse(response: CommandJS.ExecutorResponse, expectedResponse: Array<String>)
     {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
       expect(response.state).toBe(states['ERROR']);
+
+      expect(response.response).toEqual(expectedResponse);
     }
 
     function checkCommand(command: CommandJS.Command, expectedName: string)
@@ -35,7 +37,9 @@ module CommandExecutorSpec
           name: 'remote',
           subCommands: [{
             name: 'add'
-          }]
+          }, {
+              name: 'remove'
+            }]
         }]
     }]);
 
@@ -67,8 +71,14 @@ module CommandExecutorSpec
     {
       var response = executor.getCommand('git remote rename');
 
-      errorResponse(response);
-      //TODO validate error response
+      errorResponse(response, ['add', 'remove']);
+    });
+
+    it('git init test', function()
+    {
+      var response = executor.getCommand('git init test');
+
+      errorResponse(response, undefined);
     });
   });
 }

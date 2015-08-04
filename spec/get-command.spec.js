@@ -9,10 +9,11 @@ var CommandExecutorSpec;
             expect(response).not.toBeNull();
             expect(response.state).toBe(states['SUCCESS']);
         }
-        function errorResponse(response) {
+        function errorResponse(response, expectedResponse) {
             expect(response).toBeDefined();
             expect(response).not.toBeNull();
             expect(response.state).toBe(states['ERROR']);
+            expect(response.response).toEqual(expectedResponse);
         }
         function checkCommand(command, expectedName) {
             expect(command).toBeDefined();
@@ -27,6 +28,8 @@ var CommandExecutorSpec;
                         name: 'remote',
                         subCommands: [{
                                 name: 'add'
+                            }, {
+                                name: 'remove'
                             }]
                     }]
             }]);
@@ -47,7 +50,11 @@ var CommandExecutorSpec;
         });
         it('git remote rename', function () {
             var response = executor.getCommand('git remote rename');
-            errorResponse(response);
+            errorResponse(response, ['add', 'remove']);
+        });
+        it('git init test', function () {
+            var response = executor.getCommand('git init test');
+            errorResponse(response, undefined);
         });
     });
 })(CommandExecutorSpec || (CommandExecutorSpec = {}));

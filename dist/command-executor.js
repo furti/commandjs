@@ -15,9 +15,65 @@ var CommandJS;
             return this.commands;
         };
         CommandExecutorImpl.prototype.getCommand = function (commandString) {
+            var commandParts = this.getCommandParts(this.parse(commandString));
+            if (!commandParts) {
+                return {
+                    state: states.ExecutorResponseState.ERROR,
+                    errorType: states.ExecutorErrorType.PARSER_ERROR,
+                    commandString: commandString
+                };
+            }
+            var actualCommand;
+            var current = this.commands;
+            var i;
+            var part;
+            for (i in commandParts) {
+                part = commandParts[i];
+                if (current[part]) {
+                    actualCommand = current[part];
+                    if (actualCommand.subCommands) {
+                        current = actualCommand.subCommands;
+                    }
+                    else if (i < commandParts.length - 1) {
+                        return {
+                            state: states.ExecutorResponseState.ERROR,
+                            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
+                            commandString: commandString
+                        };
+                    }
+                }
+                else {
+                    return {
+                        state: states.ExecutorResponseState.ERROR,
+                        errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
+                        commandString: commandString,
+                        response: Object.keys(actualCommand.subCommands)
+                    };
+                }
+            }
             return {
-                state: states.ExecutorResponseState.SUCCESS
+                state: states.ExecutorResponseState.SUCCESS,
+                commandString: commandString,
+                response: actualCommand.command
             };
+        };
+        CommandExecutorImpl.prototype.parse = function (commandString) {
+            if (!commandString) {
+                return [];
+            }
+            return commandParser.parse(commandString.trim());
+        };
+        CommandExecutorImpl.prototype.getCommandParts = function (parseResults) {
+            if (!parseResults || parseResults.length === 0) {
+                return null;
+            }
+            for (var _i = 0; _i < parseResults.length; _i++) {
+                var result = parseResults[_i];
+                if (result.type === 'COMMAND_PARAM') {
+                    return result.values;
+                }
+            }
+            return null;
         };
         CommandExecutorImpl.prototype.prepareCommands = function (commands) {
             if (!commands) {
