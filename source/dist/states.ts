@@ -1,11 +1,14 @@
-module CommandJS {
+module CommandJS
+{
 
-  export enum ExecutorResponseState {
+  export enum ExecutorResponseState
+  {
     SUCCESS,
     ERROR
   }
 
-  export enum ExecutorErrorType {
+  export enum ExecutorErrorType
+  {
     COMMAND_NOT_FOUND
   }
 

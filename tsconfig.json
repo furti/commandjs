@@ -14,12 +14,15 @@
         "indentSize": 2,
         "tabSize": 2,
         "newLineCharacter": "\r\n",
-        "convertTabsToSpaces": true
+        "convertTabsToSpaces": true,
+        "placeOpenBraceOnNewLineForFunctions": true,
+        "placeOpenBraceOnNewLineForControlBlocks": true
     },
     "files": [
         "./source/dist/command-executor.ts",
         "./source/dist/index.ts",
         "./source/dist/states.ts",
+        "./source/spec/command-parser.spec.ts",
         "./source/spec/get-command.spec.ts",
         "./source/spec/prepare-commands.spec.ts",
         "./typings/commandjs/command-definitions.d.ts",

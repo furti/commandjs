@@ -1,19 +1,24 @@
 /// <reference path="../../typings/commandjs/command-definitions.d.ts"/>
-module CommandJS {
+module CommandJS
+{
   "use strict"
   var states = require('./states');
   var commandParser = require('./command-parser');
 
-  interface CommandWrapper {
+  interface CommandWrapper
+  {
     command: Command;
     subCommands?: { [k: string]: CommandWrapper };
   }
 
-  export class CommandExecutorImpl implements CommandExecutor {
+  export class CommandExecutorImpl implements CommandExecutor
+  {
     private commands: { [k: string]: CommandWrapper };
 
-    constructor(commands: Array<Command>) {
-      if (commands && !(commands instanceof Array)) {
+    constructor(commands: Array<Command>)
+    {
+      if (commands && !(commands instanceof Array))
+      {
         throw 'An array of commands is required';
       }
 
@@ -25,30 +30,36 @@ module CommandJS {
      *
      * @return {Object} Object with the command name as key and the command as value
      */
-    public getCommands(): { [k: string]: CommandWrapper } {
+    public getCommands(): { [k: string]: CommandWrapper }
+    {
       return this.commands;
     }
 
-    public getCommand(commandString: string): CommandJS.ExecutorResponse {
+    public getCommand(commandString: string): CommandJS.ExecutorResponse
+    {
       return {
         state: states.ExecutorResponseState.SUCCESS
       };
     }
 
-    private prepareCommands(commands: Array<CommandJS.Command>): { [k: string]: CommandWrapper } {
-      if (!commands) {
+    private prepareCommands(commands: Array<CommandJS.Command>): { [k: string]: CommandWrapper }
+    {
+      if (!commands)
+      {
         return;
       }
 
       var self = this;
       var commandMap: { [k: string]: CommandWrapper } = {};
 
-      commands.forEach(function(command) {
+      commands.forEach(function(command)
+      {
         commandMap[command.name] = {
           command: command
         };
 
-        if (command.subCommands) {
+        if (command.subCommands)
+        {
           commandMap[command.name].subCommands = self.prepareCommands(command.subCommands);
         }
       });

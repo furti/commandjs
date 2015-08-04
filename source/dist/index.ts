@@ -1,4 +1,5 @@
-module CommandJS {
+module CommandJS
+{
   "use strict"
 
   var CommandExecutor = require('./command-executor');
@@ -7,7 +8,8 @@ module CommandJS {
   module.exports = {
     ExecutorResponseState: states.ExecutorResponseState,
     ExecutorErrorType: states.ExecutorErrorType,
-    executor: function(commands: Array<CommandJS.Command>): CommandExecutor {
+    executor: function(commands: Array<CommandJS.Command>): CommandExecutor
+    {
       return new CommandExecutor(commands);
     }
   };
