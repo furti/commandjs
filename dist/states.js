@@ -7,6 +7,7 @@ var CommandJS;
     var ExecutorResponseState = CommandJS.ExecutorResponseState;
     (function (ExecutorErrorType) {
         ExecutorErrorType[ExecutorErrorType["COMMAND_NOT_FOUND"] = 0] = "COMMAND_NOT_FOUND";
+        ExecutorErrorType[ExecutorErrorType["PARSER_ERROR"] = 1] = "PARSER_ERROR";
     })(CommandJS.ExecutorErrorType || (CommandJS.ExecutorErrorType = {}));
     var ExecutorErrorType = CommandJS.ExecutorErrorType;
     module.exports = {
