@@ -10,7 +10,8 @@ module CommandJS
   export enum ExecutorErrorType
   {
     COMMAND_NOT_FOUND,
-    PARSER_ERROR
+    PARSER_ERROR,
+    COMMAND_EXECUTION_ERROR
   }
 
   module.exports = {

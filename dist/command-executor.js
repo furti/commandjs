@@ -14,6 +14,33 @@ var CommandJS;
         CommandExecutorImpl.prototype.getCommands = function () {
             return this.commands;
         };
+        CommandExecutorImpl.prototype.execute = function (commandString) {
+            var parsed = this.parse(commandString);
+            var commandParts = this.getCommandParts(parsed);
+            if (!commandParts) {
+                return {
+                    state: states.ExecutorResponseState.ERROR,
+                    errorType: states.ExecutorErrorType.PARSER_ERROR,
+                    commandString: commandString
+                };
+            }
+            var commandResponse = this.findCommand(commandParts, true);
+            if (commandResponse.state === states.ExecutorResponseState.ERROR) {
+                commandResponse.commandString = commandString;
+                return commandResponse;
+            }
+            try {
+                return commandResponse.response;
+            }
+            catch (e) {
+                return {
+                    state: states.ExecutorResponseState.ERROR,
+                    errorType: states.ExecutorErrorType.COMMAND_EXECUTION_ERROR,
+                    commandString: commandString,
+                    response: e
+                };
+            }
+        };
         CommandExecutorImpl.prototype.getCommand = function (commandString) {
             var commandParts = this.getCommandParts(this.parse(commandString));
             if (!commandParts) {
@@ -22,6 +49,14 @@ var CommandJS;
                     errorType: states.ExecutorErrorType.PARSER_ERROR,
                     commandString: commandString
                 };
+            }
+            var commandResponse = this.findCommand(commandParts, false);
+            commandResponse.commandString = commandString;
+            return commandResponse;
+        };
+        CommandExecutorImpl.prototype.findCommand = function (commandParts, paramsAllowed) {
+            if (!commandParts) {
+                return null;
             }
             var actualCommand;
             var current = this.commands;
@@ -34,11 +69,10 @@ var CommandJS;
                     if (actualCommand.subCommands) {
                         current = actualCommand.subCommands;
                     }
-                    else if (i < commandParts.length - 1) {
+                    else if (!paramsAllowed && i < commandParts.length - 1) {
                         return {
                             state: states.ExecutorResponseState.ERROR,
-                            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-                            commandString: commandString
+                            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
                         };
                     }
                 }
@@ -46,14 +80,12 @@ var CommandJS;
                     return {
                         state: states.ExecutorResponseState.ERROR,
                         errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-                        commandString: commandString,
                         response: Object.keys(actualCommand.subCommands)
                     };
                 }
             }
             return {
                 state: states.ExecutorResponseState.SUCCESS,
-                commandString: commandString,
                 response: actualCommand.command
             };
         };

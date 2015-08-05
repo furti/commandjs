@@ -1,7 +1,8 @@
 /// <reference path="../../typings/commandjs/command-definitions.d.ts"/>
 module CommandJS
 {
-  "use strict"
+  "use strict";
+
   var states = require('./states');
   var commandParser: PEG.Parser = require('./command-parser');
 
@@ -36,6 +37,47 @@ module CommandJS
     }
 
     /**
+     * Executes the given command
+     * @param {string} commandString the command to parse
+     * @return {ExecutorResponse} Response that contains the execution result
+     */
+    public execute(commandString: string): ExecutorResponse
+    {
+      var parsed = this.parse(commandString);
+      var commandParts = this.getCommandParts(parsed);
+
+      if (!commandParts)
+      {
+        return {
+          state: states.ExecutorResponseState.ERROR,
+          errorType: states.ExecutorErrorType.PARSER_ERROR,
+          commandString: commandString
+        };
+      }
+
+      var commandResponse = this.findCommand(commandParts, true);
+
+      if (commandResponse.state === states.ExecutorResponseState.ERROR)
+      {
+        commandResponse.commandString = commandString;
+        return commandResponse;
+      }
+
+      try
+      {
+        return commandResponse.response;
+      } catch (e)
+      {
+        return {
+          state: states.ExecutorResponseState.ERROR,
+          errorType: states.ExecutorErrorType.COMMAND_EXECUTION_ERROR,
+          commandString: commandString,
+          response: e
+        }
+      }
+    }
+
+    /**
      * Return the command for the commandString
      * @param {string} commandString the command to parse
      * @return {CommandJS.ExecutorResponse} Response that contains the command
@@ -51,6 +93,25 @@ module CommandJS
           errorType: states.ExecutorErrorType.PARSER_ERROR,
           commandString: commandString
         };
+      }
+
+      var commandResponse = this.findCommand(commandParts, false);
+      commandResponse.commandString = commandString;
+
+      return commandResponse;
+    }
+
+    /**
+     * Find the command for the commandParts
+     * @param {Array<string>} commandParts parts to check
+     * @param {boolean} paramsAllowed if false COMMAND_NOT_FOUND is returned when there are more commandParts available after the last found command
+     * @return {ExecutorResponse} Command
+     */
+    private findCommand(commandParts: Array<string>, paramsAllowed: boolean): ExecutorResponse
+    {
+      if (!commandParts)
+      {
+        return null;
       }
 
       var actualCommand: CommandWrapper;
@@ -70,7 +131,7 @@ module CommandJS
           {
             current = actualCommand.subCommands;
           }
-          else if (i < commandParts.length - 1)
+          else if (!paramsAllowed && i < commandParts.length - 1)
           {
             /**
              * The actualCommand has no subcommands but there are more parts in the command string
@@ -78,8 +139,7 @@ module CommandJS
              */
             return {
               state: states.ExecutorResponseState.ERROR,
-              errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-              commandString: commandString
+              errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
             }
           }
         }
@@ -89,7 +149,6 @@ module CommandJS
           return {
             state: states.ExecutorResponseState.ERROR,
             errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-            commandString: commandString,
             response: Object.keys(actualCommand.subCommands)
           }
         }
@@ -97,7 +156,6 @@ module CommandJS
 
       return {
         state: states.ExecutorResponseState.SUCCESS,
-        commandString: commandString,
         response: actualCommand.command
       };
     }
