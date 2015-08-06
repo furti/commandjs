@@ -4,22 +4,7 @@ var CommandExecutorSpec;
         var commandExecutorBuilder = require('../dist/index');
         var commandExecutor = commandExecutorBuilder.executor;
         var states = commandExecutorBuilder.ExecutorResponseState;
-        function successResponse(response) {
-            expect(response).toBeDefined();
-            expect(response).not.toBeNull();
-            expect(response.state).toBe(states['SUCCESS']);
-        }
-        function errorResponse(response, expectedResponse) {
-            expect(response).toBeDefined();
-            expect(response).not.toBeNull();
-            expect(response.state).toBe(states['ERROR']);
-            expect(response.response).toEqual(expectedResponse);
-        }
-        function checkCommand(command, expectedName) {
-            expect(command).toBeDefined();
-            expect(command).not.toBeNull();
-            expect(command.name).toBe(expectedName);
-        }
+        var responseValidator = require('./helpers/response-validator-helper');
         var executor = commandExecutor([{
                 name: 'git',
                 subCommands: [{
@@ -35,26 +20,26 @@ var CommandExecutorSpec;
             }]);
         it('git', function () {
             var response = executor.getCommand('git');
-            successResponse(response);
-            checkCommand(response.response, 'git');
+            responseValidator.successResponse(response);
+            responseValidator.checkCommand(response.response, 'git');
         });
         it('git init', function () {
             var response = executor.getCommand('git init');
-            successResponse(response);
-            checkCommand(response.response, 'init');
+            responseValidator.successResponse(response);
+            responseValidator.checkCommand(response.response, 'init');
         });
         it('git remote add', function () {
             var response = executor.getCommand('git remote add');
-            successResponse(response);
-            checkCommand(response.response, 'add');
+            responseValidator.successResponse(response);
+            responseValidator.checkCommand(response.response, 'add');
         });
         it('git remote rename', function () {
             var response = executor.getCommand('git remote rename');
-            errorResponse(response, ['add', 'remove']);
+            responseValidator.errorResponse(response, ['add', 'remove']);
         });
         it('git init test', function () {
             var response = executor.getCommand('git init test');
-            errorResponse(response, undefined);
+            responseValidator.errorResponse(response, undefined);
         });
     });
 })(CommandExecutorSpec || (CommandExecutorSpec = {}));
