@@ -30,7 +30,12 @@ var CommandJS;
                 return commandResponse;
             }
             try {
-                return commandResponse.response;
+                var executionResponse = commandResponse.response;
+                return {
+                    state: states.ExecutorResponseState.SUCCESS,
+                    commandString: commandString,
+                    response: executionResponse
+                };
             }
             catch (e) {
                 return {
@@ -77,11 +82,14 @@ var CommandJS;
                     }
                 }
                 else {
-                    return {
+                    var response = {
                         state: states.ExecutorResponseState.ERROR,
-                        errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-                        response: Object.keys(actualCommand.subCommands)
+                        errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
                     };
+                    if (current) {
+                        response.response = Object.keys(current);
+                    }
+                    return response;
                 }
             }
             return {

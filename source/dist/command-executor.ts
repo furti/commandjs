@@ -65,7 +65,14 @@ module CommandJS
 
       try
       {
-        return commandResponse.response;
+        //TODO: exectue the command with params
+        var executionResponse = commandResponse.response;
+
+        return {
+          state: states.ExecutorResponseState.SUCCESS,
+          commandString: commandString,
+          response: executionResponse
+        };
       } catch (e)
       {
         return {
@@ -145,12 +152,18 @@ module CommandJS
         }
         else
         {
-          //If the command was not found return a list of possible commands
-          return {
+          var response: CommandJS.ExecutorResponse = {
             state: states.ExecutorResponseState.ERROR,
-            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
-            response: Object.keys(actualCommand.subCommands)
+            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
+          };
+
+          if (current)
+          {
+            response.response = Object.keys(current)
           }
+
+          //If the command was not found return a list of possible commands
+          return response;
         }
       }
 

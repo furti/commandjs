@@ -58,5 +58,12 @@ module CommandExecutorSpec
 
       responseValidator.errorResponse(response, undefined);
     });
+
+    it('really unknown', function()
+    {
+      var response = executor.getCommand('really unknown');
+
+      responseValidator.errorResponse(response, ['git']);
+    });
   });
 }

@@ -41,5 +41,9 @@ var CommandExecutorSpec;
             var response = executor.getCommand('git init test');
             responseValidator.errorResponse(response, undefined);
         });
+        it('really unknown', function () {
+            var response = executor.getCommand('really unknown');
+            responseValidator.errorResponse(response, ['git']);
+        });
     });
 })(CommandExecutorSpec || (CommandExecutorSpec = {}));
