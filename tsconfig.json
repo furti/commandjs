@@ -25,6 +25,7 @@
         "./source/spec/command-parser.spec.ts",
         "./source/spec/execute-command.spec.ts",
         "./source/spec/get-command.spec.ts",
+        "./source/spec/helpers/execute-function-helper.ts",
         "./source/spec/helpers/response-validator-helper.ts",
         "./source/spec/prepare-commands.spec.ts",
         "./typings/commandjs/command-definitions.d.ts",

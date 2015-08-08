@@ -13,8 +13,8 @@ declare module CommandJS
    */
   export interface ExecutionContext
   {
-    parameters?: Array<any>,
-    options?: { [name: string]: any }
+    parameters: { [name: string]: any },
+    options: { [name: string]: any }
   }
 
   /**

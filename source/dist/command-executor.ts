@@ -57,6 +57,7 @@ module CommandJS
 
       var commandResponse = this.findCommand(commandParts, true);
 
+      //Command was not found
       if (commandResponse.state === states.ExecutorResponseState.ERROR)
       {
         commandResponse.commandString = commandString;
@@ -65,8 +66,8 @@ module CommandJS
 
       try
       {
-        //TODO: exectue the command with params
-        var executionResponse = commandResponse.response;
+        var command = commandResponse.response;
+        var executionResponse = command.execute(this.buildExecutionContext());
 
         return {
           state: states.ExecutorResponseState.SUCCESS,
@@ -106,6 +107,15 @@ module CommandJS
       commandResponse.commandString = commandString;
 
       return commandResponse;
+    }
+
+    private buildExecutionContext(): ExecutionContext
+    {
+      //TODO: build context
+      return {
+        parameters: {},
+        options: {}
+      }
     }
 
     /**

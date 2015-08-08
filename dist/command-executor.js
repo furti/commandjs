@@ -30,7 +30,8 @@ var CommandJS;
                 return commandResponse;
             }
             try {
-                var executionResponse = commandResponse.response;
+                var command = commandResponse.response;
+                var executionResponse = command.execute(this.buildExecutionContext());
                 return {
                     state: states.ExecutorResponseState.SUCCESS,
                     commandString: commandString,
@@ -58,6 +59,12 @@ var CommandJS;
             var commandResponse = this.findCommand(commandParts, false);
             commandResponse.commandString = commandString;
             return commandResponse;
+        };
+        CommandExecutorImpl.prototype.buildExecutionContext = function () {
+            return {
+                parameters: {},
+                options: {}
+            };
         };
         CommandExecutorImpl.prototype.findCommand = function (commandParts, paramsAllowed) {
             if (!commandParts) {
