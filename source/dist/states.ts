@@ -1,21 +1,21 @@
 module CommandJS
 {
 
-  export enum ExecutorResponseState
+  export class ExecutorResponseState
   {
-    SUCCESS,
-    ERROR
+    public SUCCESS = 'SUCCESS';
+    public ERROR = 'ERROR';
   }
 
-  export enum ExecutorErrorType
+  export class ExecutorErrorType
   {
-    COMMAND_NOT_FOUND,
-    PARSER_ERROR,
-    COMMAND_EXECUTION_ERROR
+    public COMMAND_NOT_FOUND = 'COMMAND_NOT_FOUND';
+    public PARSER_ERROR = 'PARSER_ERROR';
+    public COMMAND_EXECUTION_ERROR = 'COMMAND_EXECUTION_ERROR';
   }
 
   module.exports = {
-    ExecutorResponseState: ExecutorResponseState,
-    ExecutorErrorType: ExecutorErrorType
+    ExecutorResponseState: new ExecutorResponseState(),
+    ExecutorErrorType: new ExecutorErrorType()
   }
 }

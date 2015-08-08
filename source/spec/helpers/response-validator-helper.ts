@@ -8,14 +8,14 @@ module CommandJSSpec
     {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
-      expect(response.state).toBe(states['SUCCESS']);
+      expect(response.state).toBe(states.SUCCESS);
     }
 
     errorResponse(response: CommandJS.ExecutorResponse, expectedResponse: Array<String>)
     {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
-      expect(response.state).toBe(states['ERROR']);
+      expect(response.state).toBe(states.ERROR);
 
       expect(response.response).toEqual(expectedResponse);
     }

@@ -4,7 +4,6 @@ module CommandExecutorSpec
   {
     var commandExecutorBuilder = require('../dist/index');
     var commandExecutor = commandExecutorBuilder.executor;
-    var states: CommandJS.ExecutorResponseState = commandExecutorBuilder.ExecutorResponseState;
     var responseValidator: CommandJSSpec.ResponseValidator = require('./helpers/response-validator-helper');
 
     var executor: CommandExecutor = commandExecutor([{

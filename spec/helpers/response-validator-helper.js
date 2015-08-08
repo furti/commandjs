@@ -7,12 +7,12 @@ var CommandJSSpec;
         ResponseValidator.prototype.successResponse = function (response) {
             expect(response).toBeDefined();
             expect(response).not.toBeNull();
-            expect(response.state).toBe(states['SUCCESS']);
+            expect(response.state).toBe(states.SUCCESS);
         };
         ResponseValidator.prototype.errorResponse = function (response, expectedResponse) {
             expect(response).toBeDefined();
             expect(response).not.toBeNull();
-            expect(response.state).toBe(states['ERROR']);
+            expect(response.state).toBe(states.ERROR);
             expect(response.response).toEqual(expectedResponse);
         };
         ResponseValidator.prototype.checkCommand = function (command, expectedName) {

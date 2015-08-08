@@ -3,7 +3,6 @@ var CommandExecutorSpec;
     describe('Test getCommand function', function () {
         var commandExecutorBuilder = require('../dist/index');
         var commandExecutor = commandExecutorBuilder.executor;
-        var states = commandExecutorBuilder.ExecutorResponseState;
         var responseValidator = require('./helpers/response-validator-helper');
         var executor = commandExecutor([{
                 name: 'git',

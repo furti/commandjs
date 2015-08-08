@@ -1,18 +1,24 @@
 var CommandJS;
 (function (CommandJS) {
-    (function (ExecutorResponseState) {
-        ExecutorResponseState[ExecutorResponseState["SUCCESS"] = 0] = "SUCCESS";
-        ExecutorResponseState[ExecutorResponseState["ERROR"] = 1] = "ERROR";
-    })(CommandJS.ExecutorResponseState || (CommandJS.ExecutorResponseState = {}));
-    var ExecutorResponseState = CommandJS.ExecutorResponseState;
-    (function (ExecutorErrorType) {
-        ExecutorErrorType[ExecutorErrorType["COMMAND_NOT_FOUND"] = 0] = "COMMAND_NOT_FOUND";
-        ExecutorErrorType[ExecutorErrorType["PARSER_ERROR"] = 1] = "PARSER_ERROR";
-        ExecutorErrorType[ExecutorErrorType["COMMAND_EXECUTION_ERROR"] = 2] = "COMMAND_EXECUTION_ERROR";
-    })(CommandJS.ExecutorErrorType || (CommandJS.ExecutorErrorType = {}));
-    var ExecutorErrorType = CommandJS.ExecutorErrorType;
+    var ExecutorResponseState = (function () {
+        function ExecutorResponseState() {
+            this.SUCCESS = 'SUCCESS';
+            this.ERROR = 'ERROR';
+        }
+        return ExecutorResponseState;
+    })();
+    CommandJS.ExecutorResponseState = ExecutorResponseState;
+    var ExecutorErrorType = (function () {
+        function ExecutorErrorType() {
+            this.COMMAND_NOT_FOUND = 'COMMAND_NOT_FOUND';
+            this.PARSER_ERROR = 'PARSER_ERROR';
+            this.COMMAND_EXECUTION_ERROR = 'COMMAND_EXECUTION_ERROR';
+        }
+        return ExecutorErrorType;
+    })();
+    CommandJS.ExecutorErrorType = ExecutorErrorType;
     module.exports = {
-        ExecutorResponseState: ExecutorResponseState,
-        ExecutorErrorType: ExecutorErrorType
+        ExecutorResponseState: new ExecutorResponseState(),
+        ExecutorErrorType: new ExecutorErrorType()
     };
 })(CommandJS || (CommandJS = {}));
