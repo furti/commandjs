@@ -4,6 +4,17 @@ declare module CommandJS
   {
     name: string;
     subCommands?: Array<Command>;
+    execute?: (context: ExecutionContext) => any;
+  }
+
+  /**
+   * Object that contains the parameters and options passed to a command
+   * @type {ExecutionContext}
+   */
+  export interface ExecutionContext
+  {
+    parameters?: Array<any>,
+    options?: { [name: string]: any }
   }
 
   /**
@@ -26,4 +37,5 @@ declare module CommandJS
 interface CommandExecutor
 {
   getCommand(commandString: string): CommandJS.ExecutorResponse;
+  execute(commandString: string): CommandJS.ExecutorResponse;
 }
