@@ -14,7 +14,9 @@ module CommandExecutorSpec
           name: 'firstSub',
           parameters: [{
             name: 'color'
-          }],
+          }, {
+              name: 'size'
+            }],
           execute: executeFunctionHelper.createExecutionFunction('moo')
         }]
       }, {
@@ -43,6 +45,20 @@ module CommandExecutorSpec
         customReturnValue: 'moo',
         parameters: {
           color: 'brown'
+        }
+      });
+    });
+
+    it('first firstSub black small', function()
+    {
+      var response = executor.execute('first firstSub black small');
+
+      responseValidator.successResponse(response);
+      executeFunctionHelper.validateResult(response['result'], {
+        customReturnValue: 'moo',
+        parameters: {
+          color: 'black',
+          size: 'small'
         }
       });
     });

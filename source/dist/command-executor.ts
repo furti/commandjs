@@ -67,7 +67,7 @@ module CommandJS
       try
       {
         var command = commandResponse['command'];
-        var result = command.execute(this.buildExecutionContext());
+        var result = command.execute(this.buildExecutionContext(command, commandResponse['parameters']));
 
         return {
           state: states.ExecutorResponseState.SUCCESS,
@@ -109,11 +109,20 @@ module CommandJS
       return commandResponse;
     }
 
-    private buildExecutionContext(): ExecutionContext
+    private buildExecutionContext(command: Command, paramValues: Array<string>): ExecutionContext
     {
-      //TODO: build context
+      var parameters: { [name: string]: string } = {};
+
+      if (paramValues)
+      {
+        for (var i in paramValues)
+        {
+          parameters[command.parameters[i].name] = paramValues[i];
+        }
+      }
+
       return {
-        parameters: {},
+        parameters: parameters,
         options: {}
       }
     }
@@ -132,6 +141,7 @@ module CommandJS
       }
 
       var actualCommand: CommandWrapper;
+      var params: Array<string>;
       var current = this.commands;
       var i: any;
       var part: string;
@@ -179,7 +189,7 @@ module CommandJS
           }
           else
           {
-            //TODO: param values rausfinden
+            params = commandParts.slice(i);
             break;
           }
         }
@@ -187,7 +197,8 @@ module CommandJS
 
       return {
         state: states.ExecutorResponseState.SUCCESS,
-        command: actualCommand.command
+        command: actualCommand.command,
+        parameters: params
       };
     }
 

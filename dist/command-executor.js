@@ -31,7 +31,7 @@ var CommandJS;
             }
             try {
                 var command = commandResponse['command'];
-                var result = command.execute(this.buildExecutionContext());
+                var result = command.execute(this.buildExecutionContext(command, commandResponse['parameters']));
                 return {
                     state: states.ExecutorResponseState.SUCCESS,
                     commandString: commandString,
@@ -60,9 +60,15 @@ var CommandJS;
             commandResponse.commandString = commandString;
             return commandResponse;
         };
-        CommandExecutorImpl.prototype.buildExecutionContext = function () {
+        CommandExecutorImpl.prototype.buildExecutionContext = function (command, paramValues) {
+            var parameters = {};
+            if (paramValues) {
+                for (var i in paramValues) {
+                    parameters[command.parameters[i].name] = paramValues[i];
+                }
+            }
             return {
-                parameters: {},
+                parameters: parameters,
                 options: {}
             };
         };
@@ -71,6 +77,7 @@ var CommandJS;
                 return null;
             }
             var actualCommand;
+            var params;
             var current = this.commands;
             var i;
             var part;
@@ -100,13 +107,15 @@ var CommandJS;
                         return response;
                     }
                     else {
+                        params = commandParts.slice(i);
                         break;
                     }
                 }
             }
             return {
                 state: states.ExecutorResponseState.SUCCESS,
-                command: actualCommand.command
+                command: actualCommand.command,
+                parameters: params
             };
         };
         CommandExecutorImpl.prototype.parse = function (commandString) {
