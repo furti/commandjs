@@ -4,7 +4,13 @@ declare module CommandJS
   {
     name: string;
     subCommands?: Array<Command>;
+    parameters?: Array<Parameter>;
     execute?: (context: ExecutionContext) => any;
+  }
+
+  export interface Parameter
+  {
+    name: string;
   }
 
   /**

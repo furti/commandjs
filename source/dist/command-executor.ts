@@ -162,18 +162,26 @@ module CommandJS
         }
         else
         {
-          var response: CommandJS.ExecutorResponse = {
-            state: states.ExecutorResponseState.ERROR,
-            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
-          };
-
-          if (current)
+          if (!paramsAllowed || !actualCommand || !actualCommand.command.parameters)
           {
-            response['availableCommands'] = Object.keys(current)
-          }
+            var response: CommandJS.ExecutorResponse = {
+              state: states.ExecutorResponseState.ERROR,
+              errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
+            };
 
-          //If the command was not found return a list of possible commands
-          return response;
+            if (current)
+            {
+              response['availableCommands'] = Object.keys(current)
+            }
+
+            //If the command was not found return a list of possible commands
+            return response;
+          }
+          else
+          {
+            //TODO: param values rausfinden
+            break;
+          }
         }
       }
 

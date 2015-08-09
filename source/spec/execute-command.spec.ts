@@ -12,6 +12,9 @@ module CommandExecutorSpec
         name: 'first',
         subCommands: [{
           name: 'firstSub',
+          parameters: [{
+            name: 'color'
+          }],
           execute: executeFunctionHelper.createExecutionFunction('moo')
         }]
       }, {
@@ -31,11 +34,17 @@ module CommandExecutorSpec
       });
     });
 
-    it('first firstSub', function()
+    it('first firstSub brown', function()
     {
-      var response = executor.execute('first firstSub');
+      var response = executor.execute('first firstSub brown');
 
       responseValidator.successResponse(response);
+      executeFunctionHelper.validateResult(response['result'], {
+        customReturnValue: 'moo',
+        parameters: {
+          color: 'brown'
+        }
+      });
     });
 
     it('first unkonwn', function()

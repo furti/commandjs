@@ -89,14 +89,19 @@ var CommandJS;
                     }
                 }
                 else {
-                    var response = {
-                        state: states.ExecutorResponseState.ERROR,
-                        errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
-                    };
-                    if (current) {
-                        response['availableCommands'] = Object.keys(current);
+                    if (!paramsAllowed || !actualCommand || !actualCommand.command.parameters) {
+                        var response = {
+                            state: states.ExecutorResponseState.ERROR,
+                            errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
+                        };
+                        if (current) {
+                            response['availableCommands'] = Object.keys(current);
+                        }
+                        return response;
                     }
-                    return response;
+                    else {
+                        break;
+                    }
                 }
             }
             return {

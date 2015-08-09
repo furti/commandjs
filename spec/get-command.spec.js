@@ -13,7 +13,10 @@ var CommandExecutorSpec;
                         subCommands: [{
                                 name: 'add'
                             }, {
-                                name: 'remove'
+                                name: 'remove',
+                                suCommands: [{
+                                        name: 'last'
+                                    }]
                             }]
                     }]
             }]);

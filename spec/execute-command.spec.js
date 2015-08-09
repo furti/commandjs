@@ -10,6 +10,9 @@ var CommandExecutorSpec;
                 name: 'first',
                 subCommands: [{
                         name: 'firstSub',
+                        parameters: [{
+                                name: 'color'
+                            }],
                         execute: executeFunctionHelper.createExecutionFunction('moo')
                     }]
             }, {
@@ -24,9 +27,15 @@ var CommandExecutorSpec;
                 customReturnValue: 'awesome test string'
             });
         });
-        it('first firstSub', function () {
-            var response = executor.execute('first firstSub');
+        it('first firstSub brown', function () {
+            var response = executor.execute('first firstSub brown');
             responseValidator.successResponse(response);
+            executeFunctionHelper.validateResult(response['result'], {
+                customReturnValue: 'moo',
+                parameters: {
+                    color: 'brown'
+                }
+            });
         });
         it('first unkonwn', function () {
             var response = executor.execute('first unknown');
