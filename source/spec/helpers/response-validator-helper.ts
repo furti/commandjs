@@ -11,13 +11,13 @@ module CommandJSSpec
       expect(response.state).toBe(states.SUCCESS);
     }
 
-    errorResponse(response: CommandJS.ExecutorResponse, expectedResponse: Array<String>)
+    errorResponse(response: CommandJS.ExecutorResponse, availableCommands: Array<String>)
     {
       expect(response).toBeDefined();
       expect(response).not.toBeNull();
       expect(response.state).toBe(states.ERROR);
 
-      expect(response.response).toEqual(expectedResponse);
+      expect(response['availableCommands']).toEqual(availableCommands);
     }
 
     checkCommand(command: CommandJS.Command, expectedName: string)

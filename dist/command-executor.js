@@ -30,12 +30,12 @@ var CommandJS;
                 return commandResponse;
             }
             try {
-                var command = commandResponse.response;
-                var executionResponse = command.execute(this.buildExecutionContext());
+                var command = commandResponse['command'];
+                var result = command.execute(this.buildExecutionContext());
                 return {
                     state: states.ExecutorResponseState.SUCCESS,
                     commandString: commandString,
-                    response: executionResponse
+                    result: result
                 };
             }
             catch (e) {
@@ -94,14 +94,14 @@ var CommandJS;
                         errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND
                     };
                     if (current) {
-                        response.response = Object.keys(current);
+                        response['availableCommands'] = Object.keys(current);
                     }
                     return response;
                 }
             }
             return {
                 state: states.ExecutorResponseState.SUCCESS,
-                response: actualCommand.command
+                command: actualCommand.command
             };
         };
         CommandExecutorImpl.prototype.parse = function (commandString) {

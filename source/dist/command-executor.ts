@@ -66,13 +66,13 @@ module CommandJS
 
       try
       {
-        var command = commandResponse.response;
-        var executionResponse = command.execute(this.buildExecutionContext());
+        var command = commandResponse['command'];
+        var result = command.execute(this.buildExecutionContext());
 
         return {
           state: states.ExecutorResponseState.SUCCESS,
           commandString: commandString,
-          response: executionResponse
+          result: result
         };
       } catch (e)
       {
@@ -169,7 +169,7 @@ module CommandJS
 
           if (current)
           {
-            response.response = Object.keys(current)
+            response['availableCommands'] = Object.keys(current)
           }
 
           //If the command was not found return a list of possible commands
@@ -179,7 +179,7 @@ module CommandJS
 
       return {
         state: states.ExecutorResponseState.SUCCESS,
-        response: actualCommand.command
+        command: actualCommand.command
       };
     }
 

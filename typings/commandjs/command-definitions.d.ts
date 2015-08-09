@@ -29,8 +29,8 @@ declare module CommandJS
   {
     state: ExecutorResponseState;
     errorType?: ExecutorErrorType;
-    commandString?: string,
-    response?: any;
+    commandString?: string;
+    [name: string]: any;
   }
 }
 

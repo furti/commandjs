@@ -25,7 +25,7 @@ module CommandExecutorSpec
       var response = executor.getCommand('git');
 
       responseValidator.successResponse(response);
-      responseValidator.checkCommand(response.response, 'git');
+      responseValidator.checkCommand(response['command'], 'git');
     });
 
     it('git init', function()
@@ -33,7 +33,7 @@ module CommandExecutorSpec
       var response = executor.getCommand('git init');
 
       responseValidator.successResponse(response);
-      responseValidator.checkCommand(response.response, 'init');
+      responseValidator.checkCommand(response['command'], 'init');
     });
 
     it('git remote add', function()
@@ -41,7 +41,7 @@ module CommandExecutorSpec
       var response = executor.getCommand('git remote add');
 
       responseValidator.successResponse(response);
-      responseValidator.checkCommand(response.response, 'add');
+      responseValidator.checkCommand(response['command'], 'add');
     });
 
     it('git remote rename', function()

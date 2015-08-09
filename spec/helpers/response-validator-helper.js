@@ -9,11 +9,11 @@ var CommandJSSpec;
             expect(response).not.toBeNull();
             expect(response.state).toBe(states.SUCCESS);
         };
-        ResponseValidator.prototype.errorResponse = function (response, expectedResponse) {
+        ResponseValidator.prototype.errorResponse = function (response, availableCommands) {
             expect(response).toBeDefined();
             expect(response).not.toBeNull();
             expect(response.state).toBe(states.ERROR);
-            expect(response.response).toEqual(expectedResponse);
+            expect(response['availableCommands']).toEqual(availableCommands);
         };
         ResponseValidator.prototype.checkCommand = function (command, expectedName) {
             expect(command).toBeDefined();

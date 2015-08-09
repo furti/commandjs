@@ -20,7 +20,7 @@ var CommandExecutorSpec;
         it('second', function () {
             var response = executor.execute('second');
             responseValidator.successResponse(response);
-            executeFunctionHelper.validateResult(response.response, {
+            executeFunctionHelper.validateResult(response['result'], {
                 customReturnValue: 'awesome test string'
             });
         });
