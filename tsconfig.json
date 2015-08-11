@@ -20,8 +20,10 @@
     },
     "files": [
         "./source/dist/command-executor.ts",
+        "./source/dist/command-index.ts",
         "./source/dist/index.ts",
         "./source/dist/states.ts",
+        "./source/spec/autocomplete.spec.ts",
         "./source/spec/command-parser.spec.ts",
         "./source/spec/execute-command.spec.ts",
         "./source/spec/get-command.spec.ts",

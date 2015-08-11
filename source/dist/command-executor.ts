@@ -5,6 +5,7 @@ module CommandJS
 
   var states = require('./states');
   var commandParser: PEG.Parser = require('./command-parser');
+  var commandIndex = require('./command-index');
 
   interface CommandWrapper
   {
@@ -15,6 +16,7 @@ module CommandJS
   export class CommandExecutorImpl implements CommandExecutor
   {
     private commands: { [k: string]: CommandWrapper };
+    private index: CommandJS.CommandIndex;
 
     constructor(commands: Array<Command>)
     {
@@ -24,6 +26,7 @@ module CommandJS
       }
 
       this.commands = this.prepareCommands(commands);
+      this.index = new commandIndex(commands);
     }
 
     /**
@@ -83,6 +86,42 @@ module CommandJS
           response: e
         }
       }
+    }
+
+    /**
+     * Autocomplete the commandString
+     * @param {string} commandString to check
+     * @return {CommandJS.ExecutorResponse} Response with possible commands
+     */
+    public autocomplete(commandString: string): CommandJS.ExecutorResponse
+    {
+      var commandParts = this.getCommandParts(this.parse(commandString));
+
+      if (!commandParts)
+      {
+        return {
+          state: states.ExecutorResponseState.ERROR,
+          errorType: states.ExecutorErrorType.PARSER_ERROR,
+          commandString: commandString
+        };
+      }
+
+      var possibleCommands = this.index.search(commandParts);
+
+      if (!possibleCommands || possibleCommands.length === 0)
+      {
+        return {
+          state: states.ExecutorResponseState.ERROR,
+          errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
+          commandString: commandString
+        }
+      }
+
+      return {
+        state: states.ExecutorResponseState.SUCCESS,
+        commandString: commandString,
+        possibleCommands: possibleCommands
+      };
     }
 
     /**

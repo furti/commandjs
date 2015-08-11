@@ -4,12 +4,14 @@ var CommandJS;
     "use strict";
     var states = require('./states');
     var commandParser = require('./command-parser');
+    var commandIndex = require('./command-index');
     var CommandExecutorImpl = (function () {
         function CommandExecutorImpl(commands) {
             if (commands && !(commands instanceof Array)) {
                 throw 'An array of commands is required';
             }
             this.commands = this.prepareCommands(commands);
+            this.index = new commandIndex(commands);
         }
         CommandExecutorImpl.prototype.getCommands = function () {
             return this.commands;
@@ -46,6 +48,29 @@ var CommandJS;
                     response: e
                 };
             }
+        };
+        CommandExecutorImpl.prototype.autocomplete = function (commandString) {
+            var commandParts = this.getCommandParts(this.parse(commandString));
+            if (!commandParts) {
+                return {
+                    state: states.ExecutorResponseState.ERROR,
+                    errorType: states.ExecutorErrorType.PARSER_ERROR,
+                    commandString: commandString
+                };
+            }
+            var possibleCommands = this.index.search(commandParts);
+            if (!possibleCommands || possibleCommands.length === 0) {
+                return {
+                    state: states.ExecutorResponseState.ERROR,
+                    errorType: states.ExecutorErrorType.COMMAND_NOT_FOUND,
+                    commandString: commandString
+                };
+            }
+            return {
+                state: states.ExecutorResponseState.SUCCESS,
+                commandString: commandString,
+                possibleCommands: possibleCommands
+            };
         };
         CommandExecutorImpl.prototype.getCommand = function (commandString) {
             var commandParts = this.getCommandParts(this.parse(commandString));

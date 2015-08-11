@@ -44,4 +44,5 @@ interface CommandExecutor
 {
   getCommand(commandString: string): CommandJS.ExecutorResponse;
   execute(commandString: string): CommandJS.ExecutorResponse;
+  autocomplete(commandString: string): CommandJS.ExecutorResponse;
 }
